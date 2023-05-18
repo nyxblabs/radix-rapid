@@ -88,6 +88,7 @@ function lookup(ctx: RadixRouterContext, path: string): MatchedRoute {
          params: paramsFound ? params : undefined,
       }
    }
+
    return node.data
 }
 
@@ -103,8 +104,8 @@ function insert(ctx: RadixRouterContext, path: string, data: any) {
    for (const section of sections) {
       let childNode: RadixNode<RadixNodeData>
 
-      childNode = node.children.get(section)
-      if (childNode) {
+      // eslint-disable-next-line no-cond-assign
+      if ((childNode = node.children.get(section))) {
          node = childNode
       }
       else {
@@ -117,7 +118,7 @@ function insert(ctx: RadixRouterContext, path: string, data: any) {
 
          if (type === NODE_TYPES.PLACEHOLDER) {
             childNode.paramName
-          = section === '*' ? `_${_unnamedPlaceholderCtr++}` : section.slice(1)
+               = section === '*' ? `_${_unnamedPlaceholderCtr++}` : section.slice(1)
             node.placeholderChildNode = childNode
             isStaticRoute = false
          }
@@ -145,9 +146,10 @@ function insert(ctx: RadixRouterContext, path: string, data: any) {
 function remove(ctx: RadixRouterContext, path: string) {
    let success = false
    const sections = path.split('/')
-   const node = ctx.rootNode
+   let node = ctx.rootNode
 
-   for (const _section of sections) {
+   for (const section of sections) {
+      node = node.children.get(section)
       if (!node)
          return success
    }
