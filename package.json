@@ -1,6 +1,6 @@
 {
   "name": "radix-rapid",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "✨ Lightweight and fast router for JavaScript based on Radix Tree 🌱",
   "author": "Dennis Ollhoff <contact@nyxb.xyz",
   "license": "MIT",
